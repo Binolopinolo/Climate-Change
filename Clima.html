@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domande con Risposte Si/No</title>
+    <style>
+        body {
+            font-family: Monospace, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://img.freepik.com/free-vector/blurred-aquamarine-background_1107-134.jpg?w=740&t=st=1708884662~exp=1708885262~hmac=da1406ef33ce50748019af5eb0322398942bf9185d52ea277c87ca0b818e009e');
+            background-size: cover;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+		.reload-btn-container {
+    position: fixed;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+        .btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .btn-green {
+            background-color: green;
+            color: white;
+		 }	   .btn-grey {
+            background-color: #a52a2a;
+            color: white;
+        }
+        .btn-red {
+            background-color: red;
+            color: white;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="question-container">
+        <div id="question" class="question"></div>
+        <div class="btn-container"> <!-- Aggiunta una div per contenere i pulsanti -->
+            <button id="btnYes" class="btn btn-green">Si</button>
+            <button id="btnNo" class="btn btn-red">No</button>
+        <div class="btn-container reload-btn-container">
+    <button id="reloadButton" class="btn btn-grey" onclick="window.location.reload();">Vuoi rifare il test</button>
+</div>
+
+    <script>
+        // Array di domande
+        const questions = [
+           	"Sprechi cibo?",
+			"Fai la raccolta differenziata?",
+			"Ti dimentichi spesso di spegnere le luci o dispositivi elettrici (televisioni, ventilatori)?",
+            "Mangi più di 3 volte a settimana carne?",
+			"Usi spesso climatizzatori/termosifoni?",
+            "Stai più di 20 minuti sotto la doccia?",
+            "Usi principalemtente un veicolo privato?",
+			"Acquisti alimenti non basandoti sul metodo di allevamento o produzione?",
+			"Usi spesso l'asciugatrice invece di far asciugare i panni all'aria?", 
+			"Azioni la lavatrice/lavastoviglie anche quando non sono del tutto piene?",
+            // Aggiungi altre domande qui
+        ];
+
+        let currentQuestionIndex = 0;
+        let i = 0; // Inizializzazione della variabile i
+        const questionElement = document.getElementById('question');
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const reloadButton = document.getElementById('reloadButton'); // Aggiunto il pulsante per il reload
+		reloadButton.style.display = 'none'; // Mostra il pulsante per il reload alla fine del test
+
+        // Funzione per visualizzare la prossima domanda
+        function displayNextQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex];
+                currentQuestionIndex++;
+            } else {
+                // Se tutte le domande sono state fatte
+                let finalMessage = "";
+                if (i > 9) {
+                    finalMessage = "<br>Il tuo impatto sull'ambiente sembra essere alto.<br>Considera di apportare modifiche al tuo stile di vita per ridurlo!";
+                } else if (i >= 5 && i < 8) {
+                    finalMessage = "<br>Il tuo impatto sull'ambiente sembra essere medio.<br>Ci sono aree in cui potresti migliorare.";
+                } else if (i == 0) {
+                    finalMessage = "<br>Il tuo impatto sull'ambiente sembra essere quasi nullo.<br>Hai proprio a cuore il futuro del nostro pianeta";
+                } else {
+                    finalMessage = "<br>Il tuo impatto sull'ambiente sembra essere basso. Continua così";
+                }
+                questionElement.innerHTML = "Hai ottenuto un punteggio di: " + i + finalMessage ;
+                btnYes.style.display = 'none';
+                btnNo.style.display = 'none';
+                reloadButton.style.display = 'block'; // Mostra il pulsante per il reload alla fine del test
+            }
+        }
+
+        // Aggiungi event listener per i bottoni
+        btnYes.addEventListener('click', () => {
+            i++; // Incremento della variabile i quando l'utente clicca "Si"
+            displayNextQuestion();
+        });
+
+        btnNo.addEventListener('click', () => {
+            displayNextQuestion();
+        });
+
+        // Visualizza la prima domanda all'avvio
+        displayNextQuestion();
+    </script>
+</body>
+</html>
